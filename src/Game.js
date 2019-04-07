@@ -1,5 +1,5 @@
-import React from "react";
-import Board from "./Board";
+import React from 'react';
+import Board from './Board';
 
 export default class Game extends React.Component {
     constructor(props) {
@@ -11,6 +11,10 @@ export default class Game extends React.Component {
             stepNumber: 0,
             isXNext: true,
         }
+    }
+
+    componentDidMount() {
+        document.title = 'React Tac Toe';
     }
 
     render() {
@@ -32,29 +36,34 @@ export default class Game extends React.Component {
         })
 
         if (winner) {
-            status = 'Winner is ' + winner;
+            status = 'Player ' + winner + ' won the game!';
             showRestartGame = true;
         } else if (this.boardFull(current.squares)) {
             status = 'No winner this round :(';
             showRestartGame = true;
         } else {
-            status = "Next player: " + (this.state.isXNext ? 'X' : 'O');
+            status = 'Next player: ' + (this.state.isXNext ? 'X' : 'O');
         }
 
         return (
-            <div className="game">
-                <div className="game-board">
+            <div className='game'>
+                <div className='game-board'>
                     <Board
                         squares={current.squares}
                         onClick={(i) => this.handleClick(i)} />
                 </div>
-                <div className="game-info">
-                    <div>{status}</div>
-                    <div style={{
-                        display: showRestartGame ? 'block' : 'none',
-                    }}>
-                        <button onClick={() => this.restartGame()}>Restart Game</button>
+                <div className='game-info'>
+                    <div>
+                        {status}
+                        <div className='restart-game'
+                            style={{
+                                display: 'inline-block',
+                                visibility: showRestartGame ? 'visible' : 'hidden',
+                            }}>
+                            <button onClick={() => this.restartGame()}>Restart Game</button>
+                        </div>
                     </div>
+                    <div className='move-history'>Game Move History:</div>
                     <ol>{moves}</ol>
                 </div>
             </div>
